@@ -2,113 +2,232 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores Amarillas para Ti</title>
     <style>
+        /* Fondo oscuro con estrellas */
         body {
-            background-color: #111;
+            background: radial-gradient(circle at center, #1a0f2e 0%, #08020f 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
             overflow: hidden;
+            position: relative;
         }
-        /* Animación de la flor */
+
+        /* Capa de destellos brillantes */
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sparkle {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
+            animation: floatSparkle 4s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        /* Contenedor principal de la flor */
+        .flower-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            z-index: 2;
+            animation: growFlower 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
         .flower {
             position: relative;
-            animation: bounce 3s ease-in-out infinite;
+            animation: gentleSway 4s ease-in-out infinite alternate;
+            transform-origin: bottom center;
         }
-        /* Centro del Girasol */
+
+        /* Centro perfecto del Girasol */
         .center {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(#4a2c00, #271400);
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, #3d1f00 0%, #241200 70%, #110800 100%);
             border-radius: 50%;
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 0;
+            left: 0;
             transform: translate(-50%, -50%);
             z-index: 10;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6), inset 0 0 12px rgba(0,0,0,0.7);
+            border: 2px solid #542d05;
         }
-        /* Pétalos Amarillos Realistas */
+
+        /* Estilo de los pétalos con degradado real */
         .petal {
             position: absolute;
-            width: 35px;
-            height: 110px;
-            background: linear-gradient(to top, #ffcc00, #ffea00);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            top: -55px;
-            left: -17.5px;
+            width: 26px;
+            height: 125px;
+            background: linear-gradient(to top, #ffb300 0%, #ffeb3b 50%, #fff59d 100%);
+            border-radius: 50% 50% 50% 50% / 70% 70% 40% 40%;
+            top: -125px;
+            left: -13px;
             transform-origin: bottom center;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
         }
-        /* Generar la forma circular con 12 pétalos */
-        .p1 { transform: rotate(0deg); }
-        .p2 { transform: rotate(30deg); }
-        .p3 { transform: rotate(60deg); }
-        .p4 { transform: rotate(90deg); }
-        .p5 { transform: rotate(120deg); }
-        .p6 { transform: rotate(150deg); }
-        .p7 { transform: rotate(180deg); }
-        .p8 { transform: rotate(210deg); }
-        .p9 { transform: rotate(240deg); }
-        .p10 { transform: rotate(270deg); }
-        .p11 { transform: rotate(300deg); }
-        .p12 { transform: rotate(330deg); }
 
-        /* Tallo */
+        /* Distribución perfecta de los 18 pétalos */
+        .p1  { transform: rotate(0deg); }
+        .p2  { transform: rotate(20deg); }
+        .p3  { transform: rotate(40deg); }
+        .p4  { transform: rotate(60deg); }
+        .p5  { transform: rotate(80deg); }
+        .p6  { transform: rotate(100deg); }
+        .p7  { transform: rotate(120deg); }
+        .p8  { transform: rotate(140deg); }
+        .p9  { transform: rotate(160deg); }
+        .p10 { transform: rotate(180deg); }
+        .p11 { transform: rotate(200deg); }
+        .p12 { transform: rotate(220deg); }
+        .p13 { transform: rotate(240deg); }
+        .p14 { transform: rotate(260deg); }
+        .p15 { transform: rotate(280deg); }
+        .p16 { transform: rotate(300deg); }
+        .p17 { transform: rotate(320deg); }
+        .p18 { transform: rotate(340deg); }
+
+        /* Tallo estilizado */
         .stem {
-            width: 12px;
-            height: 180px;
-            background: linear-gradient(to right, #4caf50, #2e7d32);
+            width: 10px;
+            height: 220px;
+            background: linear-gradient(to right, #388e3c, #4caf50, #2e7d32);
             position: absolute;
-            top: 40px;
-            left: -6px;
-            border-radius: 4px;
+            top: 0;
+            left: -5px;
+            border-radius: 6px;
             z-index: 1;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        /* Mensaje de texto */
-        .text {
-            color: #ffd700;
-            font-size: 24px;
-            margin-top: 360px;
-            text-shadow: 0 0 10px rgba(255,215,0,0.5);
-            font-weight: bold;
+
+        /* Hojas del tallo animadas */
+        .leaf {
+            position: absolute;
+            width: 45px;
+            height: 25px;
+            background: linear-gradient(to right, #2e7d32, #4caf50);
+            border-radius: 20px 0px 20px 0px;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .leaf.left {
+            top: 60px;
+            left: -44px;
+            transform: rotate(-15deg);
+            transform-origin: right bottom;
+            animation: leafSwayLeft 4s ease-in-out infinite alternate;
+        }
+
+        .leaf.right {
+            top: 110px;
+            left: 4px;
+            border-radius: 0px 20px 0px 20px;
+            transform: rotate(15deg);
+            transform-origin: left bottom;
+            animation: leafSwayRight 4s ease-in-out infinite alternate;
+        }
+
+        /* Letrero estético inferior */
+        .text-container {
+            margin-top: 40px;
             text-align: center;
-            animation: fadeIn 2s ease-in;
+            z-index: 2;
         }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
+
+        .text {
+            color: #ffeb3b;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 0 0 12px rgba(255,235,59,0.6), 0 0 25px rgba(255,235,59,0.3);
+            margin: 0;
+            opacity: 0;
+            animation: fadeInText 2s ease-out 1.5s forwards;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        /* --- ANIMACIONES --- */
+        @keyframes growFlower {
+            from { transform: scale(0) translateY(100px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        @keyframes gentleSway {
+            0% { transform: rotate(-3deg); }
+            100% { transform: rotate(3deg); }
+        }
+
+        @keyframes leafSwayLeft {
+            0% { transform: rotate(-15deg); }
+            100% { transform: rotate(-25deg); }
+        }
+
+        @keyframes leafSwayRight {
+            0% { transform: rotate(15deg); }
+            100% { transform: rotate(25deg); }
+        }
+
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatSparkle {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="flower">
-        <div class="center"></div>
-        <div class="petal p1"></div>
-        <div class="petal p2"></div>
-        <div class="petal p3"></div>
-        <div class="petal p4"></div>
-        <div class="petal p5"></div>
-        <div class="petal p6"></div>
-        <div class="petal p7"></div>
-        <div class="petal p8"></div>
-        <div class="petal p9"></div>
-        <div class="petal p10"></div>
-        <div class="petal p11"></div>
-        <div class="petal p12"></div>
-        <div class="stem"></div>
+    <!-- Fondo con Brillos -->
+    <div class="sparkles">
+        <div class="sparkle" style="left: 10%; width: 6px; height: 6px; animation-delay: 0s; animation-duration: 5s;"></div>
+        <div class="sparkle" style="left: 25%; width: 8px; height: 8px; animation-delay: 1.5s; animation-duration: 6s;"></div>
+        <div class="sparkle" style="left: 40%; width: 5px; height: 5px; animation-delay: 0.5s; animation-duration: 4s;"></div>
+        <div class="sparkle" style="left: 60%; width: 9px; height: 9px; animation-delay: 2s; animation-duration: 7s;"></div>
+        <div class="sparkle" style="left: 75%; width: 6px; height: 6px; animation-delay: 1s; animation-duration: 5.5s;"></div>
+        <div class="sparkle" style="left: 90%; width: 7px; height: 7px; animation-delay: 2.5s; animation-duration: 4.5s;"></div>
     </div>
 
-    <div class="text">¡Estas flores amarillas reales son para ti! 💛</div>
+    <!-- Estructura de la Flor -->
+    <div class="flower-container">
+        <div class="flower">
+            <div class="center"></div>
+            <!-- Capullo con 18 pétalos perfectos -->
+            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+            <div class="petal p7"></div><div class="petal p8"></div><div class="petal p9"></div>
+            <div class="petal p10"></div><div class="petal p11"></div><div class="petal p12"></div>
+            <div class="petal p13"></div><div class="petal p14"></div><div class="petal p15"></div>
+            <div class="petal p16"></div><div class="petal p17"></div><div class="petal p18"></div>
+            <div class="stem">
+                <div class="leaf left"></div>
+                <div class="leaf right"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje Especial -->
+    <div class="text-container">
+        <p class="text">¡Señora flor amarilla especialmente para ti! 🌻✨</p>
+    </div>
 
 </body>
 </html>
